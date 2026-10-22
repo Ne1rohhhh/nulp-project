@@ -10,64 +10,36 @@
   <aside class="left-section">
     <h2 class="left-title">Здай<span class="title-highlight">Вчасно</span></h2>
 
-    <div class="sort-parameters">
-      <button class="parameter-btn active">
+    <div class="sort-parameters" id="sidebarFilters">
+      <button class="parameter-btn active" type="button" data-sidebar-filter="all">
         <span class="sort-parameter">Усі роботи</span>
-        <span class="parameter-value">6</span>
+        <span class="parameter-value" data-count="all">0</span>
       </button>
 
-      <button class="parameter-btn">
+      <button class="parameter-btn" type="button" data-sidebar-filter="today">
         <span class="sort-parameter">Сьогодні</span>
-        <span class="parameter-value">0</span>
+        <span class="parameter-value" data-count="today">0</span>
       </button>
 
-      <button class="parameter-btn">
+      <button class="parameter-btn" type="button" data-sidebar-filter="week">
         <span class="sort-parameter">Цього тижня</span>
-        <span class="parameter-value">3</span>
+        <span class="parameter-value" data-count="week">0</span>
       </button>
 
-      <button class="parameter-btn">
+      <button class="parameter-btn" type="button" data-sidebar-filter="overdue">
         <span class="sort-parameter">Прострочені</span>
-        <span class="parameter-value">1</span>
+        <span class="parameter-value" data-count="overdue">0</span>
       </button>
 
-      <button class="parameter-btn">
+      <button class="parameter-btn" type="button" data-sidebar-filter="completed">
         <span class="sort-parameter">Виконані</span>
-        <span class="parameter-value">2</span>
+        <span class="parameter-value" data-count="completed">0</span>
       </button>
     </div>
 
     <div class="subjects">
       <h4 class="subjects-title">Предмети</h4>
-      <button class="subject-btn">
-        <span class="subject-name">Дискретна математика</span>
-        <span class="subject-value">2</span>
-      </button>
-
-      <button class="subject-btn active">
-        <span class="subject-name ">Алгоритмізація та програмування</span>
-        <span class="subject-value">1</span>
-      </button>
-
-      <button class="subject-btn">
-        <span class="subject-name">Фізика</span>
-        <span class="subject-value">1</span>
-      </button>
-
-      <button class="subject-btn">
-        <span class="subject-name">Вища математика</span>
-        <span class="subject-value">1</span>
-      </button>
-
-      <button class="subject-btn">
-        <span class="subject-name">Історія</span>
-        <span class="subject-value">1</span>
-      </button>
-
-      <button class="subject-btn">
-        <span class="subject-name">Англійська мова</span>
-        <span class="subject-value">0</span>
-      </button>
+      <div id="subjectFilters"></div>
     </div>
   </aside>
 
@@ -76,52 +48,173 @@
     <div class="first-header">
       <span class="header-text">
         <h1 class="header-title">Мої роботи</h1>
-        <h4 class="header-subtitle">Четвер, 8 жовтня · найближчий дедлайн через 2 дні</h4>
+        <h4 class="header-subtitle" id="headerSubtitle"></h4>
       </span>
 
       <div class="header-actions">
-        <input class="search-input" type="text" placeholder="Пошук роботи">
-        <button class="add-btn">+ Нова робота</button>
+        <input class="search-input" id="searchInput" type="search" placeholder="Пошук роботи" aria-label="Пошук роботи">
+        <button class="add-btn" id="addTaskBtn" type="button">+ Нова робота</button>
       </div>
     </div>
 
     <div class="second-header">
       <span class="item">
         <h5 class="item-title">Усього</h5>
-        <h2 class="item-value d">6</h2>
+        <h2 class="item-value d" id="totalCount">0</h2>
       </span>
 
       <span class="item">
         <h5 class="item-title">В процесі</h5>
-        <h2 class="item-value b">3</h2>
+        <h2 class="item-value b" id="activeCount">0</h2>
       </span>
 
       <span class="item">
         <h5 class="item-title">Виконано</h5>
-        <h2 class="item-value g">2</h2>
+        <h2 class="item-value g" id="completedCount">0</h2>
       </span>
 
       <span class="item">
         <h5 class="item-title">Прострочені</h5>
-        <h2 class="item-value r">1</h2>
+        <h2 class="item-value r" id="overdueCount">0</h2>
       </span>
     </div>
     
     <div class="tasks-row">
       <span class="tasks-types">
-        <button class="task-btn active-task">Усі</button>
-        <button class="task-btn">Лабораторні</button>
-        <button class="task-btn">Практичні</button>
-        <button class="task-btn">Виконанні</button>
-        <button class="task-btn">Не виконанні</button>
+        <button class="task-btn active-task" type="button" data-task-filter="all">Усі</button>
+        <button class="task-btn" type="button" data-task-filter="Лабораторна">Лабораторні</button>
+        <button class="task-btn" type="button" data-task-filter="Практична">Практичні</button>
+        <button class="task-btn" type="button" data-task-filter="completed">Виконані</button>
+        <button class="task-btn" type="button" data-task-filter="active">Не виконані</button>
       </span>
 
       <span class="tasks-sort">
-        <h4 class="sort-title">Сортувати за:</h4>
-
+        <label class="sort-title" for="sortSelect">Сортувати:</label>
+        <select id="sortSelect" aria-label="Сортувати роботи">
+          <option value="deadline">Дедлайн ↑</option>
+          <option value="deadline-desc">Дедлайн ↓</option>
+          <option value="priority">Пріоритет</option>
+          <option value="title">Назва</option>
+        </select>
       </span>
+    </div>
+
+    <div class="task-list-wrap">
+      <table class="task-list">
+        <thead>
+          <tr>
+            <th>Робота</th>
+            <th>Дедлайн</th>
+            <th>Статус</th>
+            <th>Пріоритет</th>
+            <th aria-label="Дії"></th>
+          </tr>
+        </thead>
+        <tbody id="taskList">
+          <tr class="empty-task-row">
+            <td colspan="5">Поки немає доданих робіт</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </header>
 </section>
+
+<dialog class="task-modal" id="taskModal" aria-labelledby="modalTitle">
+  <form class="task-form" id="taskForm">
+    <input name="id" type="hidden">
+    <div class="modal-header">
+      <h2 id="modalTitle">Нова робота</h2>
+      <button class="modal-close" id="closeModalBtn" type="button" aria-label="Закрити">×</button>
+    </div>
+
+    <div class="modal-fields">
+      <label class="form-field form-field-full">
+        <span>Назва роботи</span>
+        <input name="title" type="text" placeholder="Наприклад, Лабораторна №5" required maxlength="120">
+      </label>
+
+      <label class="form-field">
+        <span>Предмет</span>
+        <select name="subject" id="subjectSelect" required>
+          <option value="" disabled selected>Оберіть предмет</option>
+          <option>Дискретна математика</option>
+          <option>Бази даних</option>
+          <option>Операційні системи</option>
+          <option>Вища математика</option>
+          <option>Основи програмування</option>
+          <option>Інше</option>
+        </select>
+      </label>
+
+      <label class="form-field">
+        <span>Нагадати</span>
+        <select name="reminder">
+          <option>Не нагадувати</option>
+          <option>За 1 день</option>
+          <option>За 3 дні</option>
+          <option>За тиждень</option>
+        </select>
+      </label>
+
+      <fieldset class="form-field form-field-full">
+        <legend>Тип</legend>
+        <div class="choice-group">
+          <label class="choice-option">
+            <input type="radio" name="type" value="Лабораторна" checked>
+            <span>Лабораторна</span>
+          </label>
+          <label class="choice-option">
+            <input type="radio" name="type" value="Практична">
+            <span>Практична</span>
+          </label>
+          <label class="choice-option">
+            <input type="radio" name="type" value="Інше">
+            <span>Інше</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <label class="form-field">
+        <span>Дедлайн</span>
+        <input name="deadline" type="date" required>
+      </label>
+
+      <label class="form-field">
+        <span>Час</span>
+        <input name="time" type="time" value="23:59" required>
+      </label>
+
+      <fieldset class="form-field form-field-full">
+        <legend>Пріоритет</legend>
+        <div class="choice-group">
+          <label class="choice-option">
+            <input type="radio" name="priority" value="Низький">
+            <span>Низький</span>
+          </label>
+          <label class="choice-option">
+            <input type="radio" name="priority" value="Середній" checked>
+            <span>Середній</span>
+          </label>
+          <label class="choice-option">
+            <input type="radio" name="priority" value="Високий">
+            <span>Високий</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <label class="form-field form-field-full">
+        <span>Нотатки</span>
+        <textarea name="notes" rows="3" placeholder="Посилання, вимоги, що ще треба зробити"></textarea>
+      </label>
+    </div>
+
+    <div class="modal-footer">
+      <button class="modal-cancel" id="cancelModalBtn" type="button">Скасувати</button>
+      <button class="modal-save" type="submit">Зберегти</button>
+    </div>
+  </form>
+</dialog>
+<script src="./script.js"></script>
 </body>
 </html>
